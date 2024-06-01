@@ -112,8 +112,8 @@ fun WordList(temp: MutableState<List<Word>>, index: MutableIntState) {
             Button(onClick = { index.intValue = 2 }) {
                 Text(text = "測驗")
             }
-            Button(onClick = { /*TODO*/ }) {
-                Text(text = "測驗紀錄")
+            Button(onClick = { index.intValue = 3 }) {
+                Text(text = "去data")
             }
         }
     }
@@ -148,7 +148,7 @@ fun Quiz(temp: MutableState<List<Word>>, pageIndex: MutableIntState) {
             }
         }
         item {
-            Text(text = "sc:${sc.intValue}")
+            Text(text = "分數:${sc.intValue}/10")
         }
     }
 }
