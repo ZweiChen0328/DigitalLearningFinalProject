@@ -199,15 +199,15 @@ fun ButtonGroup(answers: MutableList<Word>, select: MutableIntState) {
 fun Data(index: MutableIntState) {
 
     Column {
-        Button(onClick = { index.intValue = 0 }) {
-            Text(text = "回到主畫面")
-        }
         LazyVerticalGrid(
-            modifier = Modifier.fillMaxSize(), columns = GridCells.Fixed(2)
+            modifier = Modifier.weight(1f), columns = GridCells.Fixed(2)
         ) {
             items(words) {
                 Text(text = it.en + " " + it.ch + " " + it.sc + "%")
             }
+        }
+        Button(modifier = Modifier,onClick = { index.intValue = 0 }) {
+            Text(text = "回到主畫面")
         }
     }
 }
