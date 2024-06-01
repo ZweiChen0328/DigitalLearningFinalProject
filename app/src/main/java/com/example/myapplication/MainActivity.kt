@@ -62,7 +62,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         3 -> {
-                            Data()
+                            Data(index)
                         }
                     }
                 }
@@ -113,7 +113,7 @@ fun WordList(temp: MutableState<List<Word>>, index: MutableIntState) {
                 Text(text = "測驗")
             }
             Button(onClick = { index.intValue = 3 }) {
-                Text(text = "去data")
+                Text(text = "單字列表")
             }
         }
     }
@@ -196,12 +196,18 @@ fun ButtonGroup(answers: MutableList<Word>, select: MutableIntState) {
 }
 
 @Composable
-fun Data() {
-    LazyVerticalGrid(
-        modifier = Modifier.fillMaxSize(), columns = GridCells.Fixed(2)
-    ) {
-        items(words) {
-            Text(text = it.en + " " + it.ch + " " + it.sc)
+fun Data(index: MutableIntState) {
+
+    Column {
+        LazyVerticalGrid(
+            modifier = Modifier.fillMaxSize(), columns = GridCells.Fixed(2)
+        ) {
+            items(words) {
+                Text(text = it.en + " " + it.ch + " " + it.sc)
+            }
+        }
+        Button(onClick = { index.intValue = 0 }) {
+            Text(text = "回到主畫面")
         }
     }
 }
@@ -221,14 +227,6 @@ fun GreetingPreview() {
             }
         }
     }
-
-//    Data()
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview2() {
-    Data()
 }
 
 
