@@ -203,7 +203,7 @@ fun Data(index: MutableIntState) {
             modifier = Modifier.fillMaxSize(), columns = GridCells.Fixed(2)
         ) {
             items(words) {
-                Text(text = it.en + " " + it.ch + " " + it.sc)
+                Text(text = it.en + " " + it.ch + " " + it.sc + "%")
             }
         }
         Button(onClick = { index.intValue = 0 }) {
