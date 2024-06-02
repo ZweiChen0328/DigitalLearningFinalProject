@@ -152,7 +152,7 @@ fun Quiz(temp: MutableState<List<Word>>, pageIndex: MutableIntState) {
                     Text(text = "分數:")
                     Text(
                         text = "${sc.intValue}", color = if (cal.value) {
-                            Color.Red
+                            Color(0xFFEA0000)
                         } else {
                             Color.Black
                         }
@@ -200,9 +200,9 @@ fun ButtonGroup(
                     if (select.intValue == index) {
                         if (cal.value) {
                             if (correctPosition == select.intValue) {
-                                Color.Red
+                                Color(0xFF00A600)
                             } else {
-                                Color.Green
+                                Color(0xFFEA0000)
                             }
                         } else {
                             Color(0xFF0044BB)
