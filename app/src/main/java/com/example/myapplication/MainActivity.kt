@@ -126,16 +126,19 @@ fun Quiz(temp: MutableState<List<Word>>, pageIndex: MutableIntState) {
     val correctPosition = remember { List(10) { Random.nextInt(4) } }
     val selectList = remember { List(10) { mutableIntStateOf(0) } }
     val sc = remember { mutableIntStateOf(0) }
+    val cal = remember { mutableStateOf(false) }
+
     LazyColumn {
         itemsIndexed(textList) { index, it ->
             val list = it.toMutableList()
             list.add(correctPosition[index], temp.value.take(10)[index])
             Text(text = "${index + 1}. ${temp.value.take(10)[index].en}")
-            ButtonGroup(answers = list, selectList[index])
+            ButtonGroup(answers = list, selectList[index], cal, correctPosition[index])
         }
         item {
-            Row {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Button(onClick = {
+                    cal.value = true
                     sc.intValue = calculate(temp, correctPosition, selectList)
                 }) {
                     Text(text = "送出")
@@ -145,10 +148,19 @@ fun Quiz(temp: MutableState<List<Word>>, pageIndex: MutableIntState) {
                 }) {
                     Text(text = "回到單字列表")
                 }
+                Row {
+                    Text(text = "分數:")
+                    Text(
+                        text = "${sc.intValue}", color = if (cal.value) {
+                            Color.Red
+                        } else {
+                            Color.Black
+                        }
+                    )
+                    Text(text = "/10")
+                }
+
             }
-        }
-        item {
-            Text(text = "分數:${sc.intValue}/10")
         }
     }
 }
@@ -174,13 +186,27 @@ private fun calculate(
 }
 
 @Composable
-fun ButtonGroup(answers: MutableList<Word>, select: MutableIntState) {
+fun ButtonGroup(
+    answers: MutableList<Word>,
+    select: MutableIntState,
+    cal: MutableState<Boolean>,
+    correctPosition: Int
+) {
     Row {
         answers.forEachIndexed { index, it ->
             Button(
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (select.intValue == index) {
-                        Color(0xFF0044BB)
+                    containerColor =
+                    if (select.intValue == index) {
+                        if (cal.value) {
+                            if (correctPosition == select.intValue) {
+                                Color.Red
+                            } else {
+                                Color.Green
+                            }
+                        } else {
+                            Color(0xFF0044BB)
+                        }
                     } else {
                         Color(0xFFAAAAAA)
                     }
@@ -206,7 +232,7 @@ fun Data(index: MutableIntState) {
                 Text(text = it.en + " " + it.ch + " " + it.sc + "%")
             }
         }
-        Button(modifier = Modifier,onClick = { index.intValue = 0 }) {
+        Button(modifier = Modifier, onClick = { index.intValue = 0 }) {
             Text(text = "回到主畫面")
         }
     }
@@ -215,7 +241,7 @@ fun Data(index: MutableIntState) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    var index = remember {
+    val index = remember {
         mutableIntStateOf(0)
     }
     MyApplicationTheme {
