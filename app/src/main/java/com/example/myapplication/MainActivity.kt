@@ -208,7 +208,15 @@ fun ButtonGroup(
                             Color(0xFF0044BB)
                         }
                     } else {
-                        Color(0xFFAAAAAA)
+                        if (cal.value) {
+                            if (correctPosition == index) {
+                                Color(0xFF00A600)
+                            } else {
+                                Color(0xFFAAAAAA)
+                            }
+                        } else {
+                            Color(0xFFAAAAAA)
+                        }
                     }
                 ),
                 onClick = {
